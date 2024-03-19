@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory Game</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+  #numbers {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+</style>
+</head>
+<body>
+<div id="numbers"></div>
+<div id="input"></div>
+
+<script>
+// Funzione per generare un numero casuale compreso tra min e max
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+// Funzione per generare un array di numeri casuali
+function generateNumbers(count) {
+  var numbers = [];
+  for (var i = 0; i < count; i++) {
+    numbers.push(getRandomNumber(1, 100)); // Cambia questi limiti come preferisci
+  }
+  return numbers;
+}
+
+// Funzione per mostrare i numeri all'utente
+function displayNumbers(numbers) {
+  var numbersElement = document.getElementById('numbers');
+  numbersElement.textContent = numbers.join(' ');
+}
+
+// Funzione per chiedere all'utente di inserire i numeri
+function askForInput(numbers) {
+  var inputElement = document.getElementById('input');
+  inputElement.innerHTML = '';
+
+  var guessedNumbers = [];
+  for (var i = 0; i < numbers.length; i++) {
+    var guess = prompt('Inserisci il numero ' + (i + 1));
+    guessedNumbers.push(parseInt(guess, 10));
+  }
+
+  return guessedNumbers;
+}
+
+// Funzione per confrontare i numeri inseriti dall'utente con quelli generati
+function compareNumbers(originalNumbers, guessedNumbers) {
+  var correctCount = 0;
+  var correctNumbers = [];
+  for (var i = 0; i < originalNumbers.length; i++) {
+    if (originalNumbers[i] === guessedNumbers[i]) {
+      correctCount++;
+      correctNumbers.push(originalNumbers[i]);
+    }
+  }
+  return { count: correctCount, numbers: correctNumbers };
+}
+
+// Funzione principale per gestire il gioco
+function startGame() {
+  var numbersToRemember = generateNumbers(5);
+  displayNumbers(numbersToRemember);
+
+  setTimeout(function() {
+    alert('I numeri sono scomparsi! Ora inserisci i numeri che hai visto.');
+    var guessedNumbers = askForInput(numbersToRemember);
+    var result = compareNumbers(numbersToRemember, guessedNumbers);
+    alert('Hai indovinato ' + result.count + ' numeri: ' + (result.numbers.length > 0 ? result.numbers.join(', ') : 'nessuno'));
+  }, 30000); // Timer di 30 secondi
+}
+
+// Avvia il gioco quando la pagina si carica
+window.onload = startGame;
+</script>
+</body>
+</html>
