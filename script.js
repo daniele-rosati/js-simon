@@ -61,7 +61,7 @@ function startGame() {
     let guessedNumbers = askForInput(numbersToRemember);
     let result = compareNumbers(numbersToRemember, guessedNumbers);
     alert('Hai indovinato ' + result.count + ' numeri: ' + (result.numbers.length > 0 ? result.numbers.join(', ') : 'nessuno'));
-  }, 30000); // Timer di 30 secondi
+  }, 5000); // Timer di x secondi
 }
 
 // avvia il gioco quando la paigina si carica
